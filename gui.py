@@ -43,9 +43,24 @@ class SudokuGame:
         self.board = [row[:] for row in self.original]
         self.solved = False
 
+    def _is_valid_solution(self, board):
+        for row in board:
+            if sorted(row) != list(range(1, 10)):
+                return False
+        for col in range(9):
+            vals = [board[row][col] for row in range(9)]
+            if sorted(vals) != list(range(1, 10)):
+                return False
+        for br in range(3):
+            for bc in range(3):
+                vals = [board[br*3+r][bc*3+c] for r in range(3) for c in range(3)]
+                if sorted(vals) != list(range(1, 10)):
+                    return False
+        return True
+
     def solve_puzzle(self):
         temp = [row[:] for row in self.board]
-        if solve(temp):
+        if solve(temp) and self._is_valid_solution(temp):
             self.board = temp
             self.solved = True
             return True
@@ -54,6 +69,7 @@ class SudokuGame:
     def set_cell(self, row, col, num):
         if self.original[row][col] == 0:
             self.board[row][col] = num
+            self.solved = False
 
     def is_original(self, row, col):
         return self.original[row][col] != 0
