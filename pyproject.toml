@@ -17,3 +17,10 @@ sudoku-gui = "gui:main"
 
 [tool.pytest.ini_options]
 testpaths = ["."]
+
+[build-system]
+requires = ["setuptools>=64"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools]
+py-modules = ["gui", "sudoku"]
