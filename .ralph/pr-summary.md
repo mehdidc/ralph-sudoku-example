@@ -1,0 +1,3 @@
+- Replaced `requirements.txt` with `pyproject.toml` declaring `pygame>=2.0` as a runtime dependency and `pytest` as an optional dev dependency
+- Added `uv`-compatible project metadata including `requires-python >=3.8`, a `sudoku-gui` console script entry point, and pytest testpaths config
+- All 16 existing tests pass via `uv run pytest` with a fresh `.venv`
