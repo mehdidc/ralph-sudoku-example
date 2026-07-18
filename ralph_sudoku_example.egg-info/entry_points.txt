@@ -1,0 +1,2 @@
+[console_scripts]
+sudoku-gui = gui:main
