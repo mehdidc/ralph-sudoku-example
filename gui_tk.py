@@ -97,12 +97,16 @@ class SudokuGUI:
         tk.Label(btn_frame, text=hint, font=("Arial", 9), fg="gray", justify="left").pack(pady=(10, 0))
 
         self.root.bind("s", lambda e: self._solve())
+        self.root.bind("S", lambda e: self._solve())
         self.root.bind("r", lambda e: self._reset())
+        self.root.bind("R", lambda e: self._reset())
         for key in "123456789":
             self.root.bind(key, lambda e, k=key: self._enter_digit(int(k)))
         self.root.bind("0", lambda e: self._enter_digit(0))
         self.root.bind("<Delete>", lambda e: self._enter_digit(0))
         self.root.bind("<BackSpace>", lambda e: self._enter_digit(0))
+        self.root.bind("<<Paste>>", lambda e: "break")
+        self.root.bind("<<Clear>>", lambda e: "break")
 
     def _refresh_grid(self):
         for r in range(9):
@@ -126,10 +130,7 @@ class SudokuGUI:
                 elif self.game.is_original(r, c):
                     entry.config(bg="#e0e0e0")
 
-                if self.game.is_original(r, c) or self.game.solved:
-                    entry.config(state="readonly")
-                else:
-                    entry.config(state="normal")
+                entry.config(state="readonly")
 
     def _on_click(self, row, col):
         self.selected = (row, col)
@@ -137,13 +138,14 @@ class SudokuGUI:
         self.cells[row][col].focus_set()
 
     def _enter_digit(self, num):
-        if self.selected:
+        if self.selected and not self.game.solved:
             row, col = self.selected
             self.game.set_cell(row, col, num)
             self._refresh_grid()
 
     def _solve(self):
         if self.game.solve_puzzle():
+            self.selected = None
             self._refresh_grid()
 
     def _reset(self):

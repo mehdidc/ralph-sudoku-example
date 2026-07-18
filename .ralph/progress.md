@@ -14,3 +14,10 @@
 - Created `test_tk_gui.py` with 7 tests covering solve, reset, set_cell, is_original, invalid-board rejection, and user-conflict scenarios.
 - Updated `pyproject.toml`: added `sudoku-tk` entry point, `gui_tk` to py-modules, updated description.
 - Ran `python3 -m pytest test_tk_gui.py test_sudoku.py test_gui.py -v` — all 23 tests pass.
+
+## Iteration 3 (review round 1)
+
+- **Finding 1 (Medium):** Entry widgets accepted direct typing/paste that bypassed the game model. Fixed by keeping all Entry widgets in `"readonly"` state and blocking `<<Paste>>`/`<<Clear>>` virtual events; all input now goes through `_enter_digit`.
+- **Finding 2 (Medium):** After solving, root key bindings could still modify solved cells via `_enter_digit`. Fixed by guarding `_enter_digit` with `not self.game.solved` and clearing `selected` after solve.
+- Added 5 new tests (12 total in `test_tk_gui.py`): model-level `test_enter_digit_ignored_when_solved`, `test_enter_digit_clears_solved_flag`, and GUI-level `test_gui_entries_are_readonly`, `test_gui_enter_digit_ignored_after_solve`, `test_gui_solve_clears_selection`.
+- All 28 tests pass.

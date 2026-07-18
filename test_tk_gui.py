@@ -108,3 +108,83 @@ def test_is_original():
     game = SudokuGame(puzzle)
     assert game.is_original(0, 0) is True
     assert game.is_original(0, 1) is False
+
+
+def test_enter_digit_ignored_when_solved():
+    game = SudokuGame()
+    game.solve_puzzle()
+    original = [row[:] for row in game.board]
+    board_before = [row[:] for row in game.board]
+    game.set_cell(0, 2, 9)
+    assert game.board == board_before or game.solved is False
+    game.solved = True
+    board_at_solve = [row[:] for row in game.board]
+    game.set_cell(0, 2, 9)
+    assert game.board == board_at_solve
+
+
+def test_enter_digit_clears_solved_flag():
+    game = SudokuGame()
+    game.solve_puzzle()
+    assert game.solved is True
+    game.set_cell(0, 2, 9)
+    assert game.solved is False
+
+
+try:
+    import tkinter as tk
+    from gui_tk import SudokuGUI
+
+    _root = tk.Tk()
+    _root.withdraw()
+    _HAS_TK = True
+    _root.destroy()
+except Exception:
+    _HAS_TK = False
+
+
+import pytest
+
+
+@pytest.mark.skipif(not _HAS_TK, reason="no display for Tk")
+def test_gui_entries_are_readonly():
+    root = tk.Tk()
+    root.withdraw()
+    try:
+        gui = SudokuGUI(root)
+        for r in range(9):
+            for c in range(9):
+                assert gui.cells[r][c].cget("state") == "readonly"
+    finally:
+        root.destroy()
+
+
+@pytest.mark.skipif(not _HAS_TK, reason="no display for Tk")
+def test_gui_enter_digit_ignored_after_solve():
+    root = tk.Tk()
+    root.withdraw()
+    try:
+        gui = SudokuGUI(root)
+        gui.game.solve_puzzle()
+        gui.selected = (0, 2)
+        saved = [row[:] for row in gui.game.board]
+        gui._enter_digit(9)
+        assert gui.game.board == saved
+        assert gui.game.solved is True
+    finally:
+        root.destroy()
+
+
+@pytest.mark.skipif(not _HAS_TK, reason="no display for Tk")
+def test_gui_solve_clears_selection():
+    root = tk.Tk()
+    root.withdraw()
+    try:
+        gui = SudokuGUI(root)
+        gui._on_click(0, 2)
+        assert gui.selected == (0, 2)
+        gui._solve()
+        assert gui.selected is None
+        assert gui.game.solved is True
+    finally:
+        root.destroy()
