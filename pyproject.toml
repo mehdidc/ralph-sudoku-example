@@ -1,7 +1,7 @@
 [project]
 name = "ralph-sudoku-example"
 version = "0.1.0"
-description = "Sudoku game with a backtracking solver and pygame GUI"
+description = "Sudoku game with a backtracking solver, pygame GUI, and tkinter GUI"
 requires-python = ">=3.8"
 dependencies = [
     "pygame>=2.0",
@@ -14,6 +14,7 @@ dev = [
 
 [project.scripts]
 sudoku-gui = "gui:main"
+sudoku-tk = "gui_tk:main"
 
 [tool.pytest.ini_options]
 testpaths = ["."]
@@ -23,4 +24,4 @@ requires = ["setuptools>=64"]
 build-backend = "setuptools.build_meta"
 
 [tool.setuptools]
-py-modules = ["gui", "sudoku"]
+py-modules = ["gui", "gui_tk", "sudoku"]

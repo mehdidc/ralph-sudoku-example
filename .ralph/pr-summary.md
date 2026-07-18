@@ -1,3 +1,7 @@
 - Replaced `requirements.txt` with `pyproject.toml` declaring `pygame>=2.0` as a runtime dependency and `pytest` as an optional dev dependency
 - Added `uv`-compatible project metadata including `requires-python >=3.8`, a `sudoku-gui` console script entry point, and pytest testpaths config
 - All 16 existing tests pass via `uv run pytest` with a fresh `.venv`
+- Added `gui_tk.py` implementing a tkinter-based Sudoku GUI with a 9x9 grid of Entry widgets, Solve/Reset buttons, keyboard shortcuts (1-9 to enter digits, 0/Delete/BackSpace to clear, S to solve, R to reset), and color coding (gray for given cells, green for user-entered, blue for solved)
+- Added `test_tk_gui.py` with 7 tests covering solve, reset, set_cell, is_original, invalid-board rejection, and user-conflict scenarios
+- Added `sudoku-tk` console script entry point in `pyproject.toml` to launch the tkinter GUI
+- All 23 tests pass across all three test files
