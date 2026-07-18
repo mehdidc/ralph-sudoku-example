@@ -176,6 +176,28 @@ def test_gui_enter_digit_ignored_after_solve():
 
 
 @pytest.mark.skipif(not _HAS_TK, reason="no display for Tk")
+def test_gui_readonlybackground_matches_bg():
+    root = tk.Tk()
+    root.withdraw()
+    try:
+        gui = SudokuGUI(root)
+        gui._on_click(0, 2)
+        for r in range(9):
+            for c in range(9):
+                entry = gui.cells[r][c]
+                bg = entry.cget("bg")
+                rb = entry.cget("readonlybackground")
+                assert rb == bg, f"({r},{c}): readonlybackground={rb!r} != bg={bg!r}"
+        root.update_idletasks()
+        entry_selected = gui.cells[0][2]
+        entry_original = gui.cells[0][0]
+        assert entry_selected.cget("readonlybackground") == "light blue"
+        assert entry_original.cget("readonlybackground") == "#e0e0e0"
+    finally:
+        root.destroy()
+
+
+@pytest.mark.skipif(not _HAS_TK, reason="no display for Tk")
 def test_gui_solve_clears_selection():
     root = tk.Tk()
     root.withdraw()

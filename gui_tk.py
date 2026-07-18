@@ -119,16 +119,16 @@ class SudokuGUI:
                     entry.insert(0, str(val))
 
                 if self.game.is_original(r, c):
-                    entry.config(fg="black", bg="#e0e0e0")
+                    entry.config(fg="black", bg="#e0e0e0", readonlybackground="#e0e0e0")
                 elif self.game.solved:
-                    entry.config(fg="cornflower blue", bg="white")
+                    entry.config(fg="cornflower blue", bg="white", readonlybackground="white")
                 else:
-                    entry.config(fg="dark green", bg="white")
+                    entry.config(fg="dark green", bg="white", readonlybackground="white")
 
                 if self.selected == (r, c):
-                    entry.config(bg="light blue")
+                    entry.config(bg="light blue", readonlybackground="light blue")
                 elif self.game.is_original(r, c):
-                    entry.config(bg="#e0e0e0")
+                    entry.config(bg="#e0e0e0", readonlybackground="#e0e0e0")
 
                 entry.config(state="readonly")
 

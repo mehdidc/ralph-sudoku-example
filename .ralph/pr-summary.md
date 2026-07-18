@@ -4,6 +4,6 @@
 - Added `gui_tk.py` implementing a tkinter-based Sudoku GUI with a 9x9 grid of Entry widgets, Solve/Reset buttons, keyboard shortcuts (1-9 to enter digits, 0/Delete/BackSpace to clear, S to solve, R to reset), and color coding (gray for given cells, green for user-entered, blue for solved)
 - All Entry widgets are kept in read-only state; all input is routed through `_enter_digit` via root key bindings, with paste/clear virtual events blocked
 - `_enter_digit` is guarded by `game.solved` to prevent modifying a solved board; selection is cleared after solve
-- Added `test_tk_gui.py` with 12 tests covering solve, reset, set_cell, is_original, invalid-board rejection, user-conflict, entry-readonly state, solved-guard behavior, and selection clearing
+- Added `test_tk_gui.py` with 13 tests covering solve, reset, set_cell, is_original, invalid-board rejection, user-conflict, entry-readonly state, solved-guard behavior, selection clearing, and readonlybackground consistency
 - Added `sudoku-tk` console script entry point in `pyproject.toml` to launch the tkinter GUI
-- All 28 tests pass across all three test files
+- All 29 tests pass across all three test files
